@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	oplog "team.wphr.vip/technology-group/sdk/sdk-biz-oplog"
 	sdk "team.wphr.vip/technology-group/sdk/sdk-go-grpc-erpoploggo"
 	"time"
@@ -32,7 +33,8 @@ func main() {
 	}
 
 	for true {
-		opl.AddLogger(ctx, &req)
+		aRsp, err := opl.AddLogger(ctx, &req)
+		fmt.Printf("单条插入 准同步=%+v||err=%v\n", aRsp, err)
 
 		req1 := req
 		req2 := req
@@ -46,7 +48,8 @@ func main() {
 				&req2,
 			},
 		}
-		opl.BatchAddLogger(ctx, batchReq)
+		baRsp, err := opl.BatchAddLogger(ctx, batchReq)
+		fmt.Printf("批量插入 准同步=%+v||err=%v\n", baRsp, err)
 
 		time.Sleep(time.Second * 3)
 	}
